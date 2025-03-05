@@ -1,0 +1,23 @@
+{
+    "useTabs": false,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": true,
+    "phpVersion": "8.0",
+    "trailingComma": "es5",
+    "plugins": ["prettier-plugin-twig-melody", "@prettier/plugin-php"],
+    "overrides": [
+        {
+            "files": "*.twig",
+            "options": {
+                "parser": "melody",
+                "twigPrintWidth": 120,
+                "twigSingleQuote": false,
+                "twigFollowOfficialCodingStandards": true,
+                "twigOutputEndblockName": true,
+                "twigMultiTags": ["block", "if", "for", "embed"]
+            }
+        }
+    ]
+}

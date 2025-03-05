@@ -1,0 +1,11 @@
+{
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.22.4",
+        "prettier": "^3.5.3",
+        "prettier-plugin-twig-melody": "^0.4.6"
+    },
+    "scripts": {
+        "format": "prettier --write \"**/*.{twig,php,json,js,css}\"",
+        "format:check": "prettier --check \"**/*.{twig,php,json,js,css}\""
+    }
+}
