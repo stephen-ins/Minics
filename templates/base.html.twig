@@ -15,7 +15,7 @@
 		<meta name="author" content=""/>
 
 		<title>
-			{% block title %}Mimics
+			{% block title %}Minics
 			{% endblock %}
 		</title>
 
@@ -104,16 +104,16 @@
 											</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="{{ path('app_about') }}">About</a>
+											<a class="nav-link" href="{{ path('app_about') }}">A propos</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="{{ path('app_products') }}">Products</a>
+											<a class="nav-link" href="{{ path('app_products') }}">Accès à la boutique</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="{{ path('app_why') }}">Why Us</a>
+											<a class="nav-link" href="{{ path('app_why') }}">Pourquoi nous</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="{{ path('app_testimonial') }}">Testimonial</a>
+											<a class="nav-link" href="{{ path('app_testimonial') }}">Avis</a>
 										</li>
 									</ul>
 								</div>
@@ -167,11 +167,21 @@
 										Useful Link
 									</h5>
 									<ul>
-										<li><a href="{{ path('app_home') }}">Home</a></li>
-										<li><a href="{{ path('app_about') }}">About</a></li>
-										<li><a href="{{ path('app_products') }}">Products</a></li>
-										<li><a href="{{ path('app_why') }}">Why Us</a></li>
-										<li><a href="{{ path('app_testimonial') }}">Testimonial</a></li>
+										<li>
+											<ahref="{{path('app_home')}}">Home</ahref=>
+										</li>
+										<li>
+											<ahref="{{path('app_about')}}">About</ahref=>
+										</li>
+										<li>
+											<ahref="{{path('app_products')}}">Products</ahref=>
+										</li>
+										<li>
+											<ahref="{{path('app_why')}}">Why Us</ahref=>
+										</li>
+										<li>
+											<ahref="{{path('app_testimonial')}}">Testimonial</ahref=>
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -231,5 +241,5 @@
 
 				{% block javascript %}{% endblock %}
 			</body>
-		
+		</body>
 	</html>
