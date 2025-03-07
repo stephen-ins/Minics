@@ -55,9 +55,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&.,_\-])[A-Za-z\d@$!#%*?&.,_\-]{8,}$/',
                         'match' => true,
-                        'message' => "Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial ($!%?)"
+                        'message' => "Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial (@$!#%*?&.,_-)"
                     ])
                 ],
             ])

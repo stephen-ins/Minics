@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+	Minics | Mon compte
+
+{% endblock %}
+
+{% block body %}
+
+
+	{# Exo : créer le compte utilisateur, afficher les données personnelles de l'utilisateur qui est connecté en passant par l'objet app.user.
+													Faite en sorte de rediriger l'internaute si il tente d'accéder à cette page is l'utilisateur n'est pas authentifié #}
+
+	<div class="container mt-5 mb-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="mb-0">Mon profil</h2>
+					</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col-md-4 font-weight-bold">Email:</div>
+							<div class="col-md-8">{{ app.user.email }}</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-4 font-weight-bold">Prénom:</div>
+							<div class="col-md-8">{{ app.user.firstName }}</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-4 font-weight-bold">Nom:</div>
+							<div class="col-md-8">{{ app.user.lastName }}</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
