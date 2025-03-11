@@ -6,4 +6,140 @@
 
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+
+
+	<style>
+		.modal-backdrop {
+			z-index: 1 !important;
+		}
+	</style>
+
+
+	<div
+		class="container">
+
+		{# sucess, OBJET MESSAGE #}
+		{% for label, messages in app.flashes(['success', 'danger']) %}
+
+			{# 'le message' in OBJET MESSAGE #}
+			{% for message in messages %}
+
+				{# bg-success #}
+				{# bg-danger #}
+					<div class="bg-{{ label }} text-white p-3 mb-3"> {{ message|raw }}
+				</div>
+
+			{% endfor %}
+
+		{% endfor %}
+
+		<div class="container" style="max-width: 100%; margin: 0 auto;">
+
+			{# affichage des produits avec #}
+			{# une image, un titre, une description, un prix, un stock, une date d'ajout #}
+			{# bouton de suppression et de modification #}
+
+				<table class='table table-bordered mb-xl-5'> <thead>
+					<tr>
+						<th>Image</th>
+						<th>Référence</th>
+						<th>Titre</th>
+						<th>Catégorie</th>
+						<th>Description</th>
+						<th>Prix</th>
+						<th>Stock</th>
+						<th>Date d'ajout</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for item in dbProduct %}
+
+						<tr>
+
+							<td><img src="{{ asset('uploads/images/' ~ item.picture) }}" alt="{{ item.title }}" style="max-width: 50px;"></td>
+							<td>{{ item.reference }}</td>
+							<td>{{ item.title }}</td>
+							<td>{{ item.category.title }}</td>
+							<td>{{ item.description|slice(0, 20) }}[...]</td>
+							<td>{{ item.price }}
+								€</td>
+							<td>{{ item.stock }}</td>
+							<td>{{ item.createdAt|date('d/m/Y') }}</td>
+
+							<td>
+								<a href="{{ path('app_admin_products_update', {'id': item.id}) }}" class="btn btn-dark mb-2">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+
+								<a href="{{ path('app_admin_products', {'id': item.id}) }}" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#product-{{item.id}}">
+									<i class="fa-solid fa-trash-can"></i>
+								</a>
+							</td>
+
+						</tr>
+
+
+						<div class="modal fade" id="product-{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmer la suppression</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Vous êtes sur le point de supprimer l'article
+										<strong>{{item.title}}</strong>.
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+										<a href="{{path('app_admin', {'id': item.id})}}" type="button" class="btn btn-success">Sauvegarder les changements</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					{% endfor %}
+
+
+				</tbody>
+
+			</table>
+
+
+			<h2 class="my-4 fs-3">
+				Ajouter un produit</h2>
+
+			{{ form_start(productForm) }}
+
+			{{ form_row(productForm.reference) }}
+			{{ form_row(productForm.title) }}
+			{{ form_row(productForm.category) }}
+			{{ form_row(productForm.size) }}
+			{{ form_row(productForm.color) }}
+			{{ form_row(productForm.gender) }}
+			{{ form_row(productForm.description) }}
+			{{ form_row(productForm.stock) }}
+			{{ form_row(productForm.price) }}
+			{{ form_row(productForm.picture) }}
+
+			<div class="col-12 col-md-6 col-md-4 col-lg-2 my-4">
+
+				{% if pictureFile is not null %}
+					<img src="{{ asset('uploads/images/' ~ pictureFile) }}" alt="picture product" style="max-width: 50px;">
+				{% endif %}
+
+			</div>
+
+			<button type='submit' class="btn btn-dark mb-6">Enregistrer</button>
+
+			{{ form_end(productForm) }}
+
+
+		</div>
+
+	</div>
+{% endblock %}

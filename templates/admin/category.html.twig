@@ -1,0 +1,115 @@
+{% extends 'base.admin.html.twig' %}
+
+{% block title %}
+
+	Admin Minics | Categorie de produits
+
+{% endblock %}
+
+{% block body %}
+
+	<style>
+		.modal-backdrop {
+			z-index: 1 !important;
+		}
+	</style>
+
+
+	<div
+		class="container" style="max-width: 80%;">
+
+		{# sucess, OBJET MESSAGE #}
+		{% for label, messages in app.flashes(['success', 'danger']) %}
+
+			{# 'le message' in OBJET MESSAGE #}
+			{% for message in messages %}
+
+				{# bg-success #}
+				{# bg-danger #}
+					<div class="bg-{{ label }} text-white p-3 mb-3"> {{ message|raw }}
+				</div>
+
+			{% endfor %}
+
+		{% endfor %}
+
+		<div>
+
+			<h2 class="my-4 fs-3">Liste des catégories</h2>
+			<table class='table table-bordered'>
+
+				<thead>
+					<tr>
+						<th>Titre</th>
+						<th>Description</th>
+						<th>Enregistré le</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in dbCategory %}
+
+						{# {{ dump(item) }} #}
+
+						<tr>
+							<td>{{item.title}}</td>
+							<td>{{item.description}}</td>
+							<td>{{item.createdAt|date('d/m/Y à H:i:s')}}</td>
+							<td>
+								<a href="{{path('app_admin_category_update', {'id': item.id})}}" class="btn btn-dark mb-2">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+								{# une ligne par modale 																																id:1		#}
+								<a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#category-{{item.id}}">
+									<i class="fa-solid fa-trash"></i>
+								</a>
+							</td>
+
+
+							<!-- Modal -->
+							{# une ligne par modale										id:1 #}
+							<div class="modal fade" id="category-{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmer la suppression</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											Vous êtes sur le point de supprimer la catégorie
+											<strong>{{item.title}}</strong>.
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+											<a href="{{path('app_admin_category_remove', {'id': item.id})}}" type="button" class="btn btn-success">Sauvegarder les changements</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</tr>
+
+					{% endfor %}
+				</tbody>
+
+
+			</table>
+		</div>
+
+
+		<div class="mb-6 col-12 col-md-6 offset-md-3">
+
+
+			<h2 class="mt-6 my-4 fs-3">Ajouter une catégorie</h2>
+
+			{{ form_start(categoryForm) }}
+			{{ form_row(categoryForm.title) }}
+			{{ form_row(categoryForm.description) }}
+			<button type="submit" class="btn btn-dark">Enregistrer</button>
+			{{ form_end(categoryForm) }}
+
+		</div>
+
+	</div>
+{% endblock %}
