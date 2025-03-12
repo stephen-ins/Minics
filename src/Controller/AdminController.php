@@ -26,20 +26,25 @@ final class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', []);
     }
 
+
     #[Route('/admin/products', name: 'app_admin_products')]
-    #[Route('admin/products/update{id}', name: 'app_admin_products_update')]
+    #[Route('admin/products/update/{id}', name: 'app_admin_products_update')]
     public function adminProducts(?Product $product, Request $request, EntityManagerInterface $entity_manager, SluggerInterface $slugger, ProductRepository $repoProduct): Response
     {
 
         // _?Product $product : le ? veut dire que par défaut $product à une valeur null
 
+        // 1ère route : Si la variable $product n'est pas, cela veut dire que aucun id product est passé dans l'url alors on entre dans la condition et on initialise un objet entity product donc c'est un insertion product.
+
+        // 2ème route : "/admin/products/update/{id}"
+        // ON envoi un id $product dans l'URL, Symfony comprend que l'on a besoin d'un objet entity product issu de la table SQL product, il est capable automatiquement d'aller sélectionner en BDD le produit et de l'envoyer en argument de la fonction ?Product $product, à ce moment là, la variable $product contient les données du produit que l'on souhaite modifier, alors on entre pas dans la conditon if.
         if (!$product) {
             $product = new Product;
         }
         // dump($product);
 
 
-        $product = new Product;
+        // $product = new Product;
         $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,11 +81,19 @@ final class AdminController extends AbstractController
                 dump($product);
             }
 
+            // Si la condiition est TRUE, cela veut dire que l'id est connu de la BDD, donc on est dans une modification d'un produit existant
+            if ($product->getId()) {
+                $messageValidate = "Les modifications ont été enregistrées.";
+            } else {
+                // Si la condition est FALSE, cela veut dire que l'id n'est pas connu de la BDD, donc on est dans une insertion d'un produit
+                $messageValidate = "L'article a été enregistré.";
+            }
+
             $product->setCreatedAt(new \DateTimeImmutable());
             $entity_manager->persist($product);
             $entity_manager->flush();
 
-            $this->addFlash('success', "L'article a été enregistré avec succès.");
+            $this->addFlash('success', $messageValidate);
 
             return $this->redirectToRoute('app_admin_products');
         }
@@ -101,37 +114,20 @@ final class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('admin/products/remove/{id}', name: 'app_admin_products_remove')]
+    public function adminRemoveProduct($id, ProductRepository $repoProduct, EntityManagerInterface $entityManager)
+    {
+        // SELECT * FROM product WHERE id = $id
+        $product = $repoProduct->find($id);
+        dump($product);
 
-    // #[Route('admin/products/update{id}', name: 'app_admin_products_update')]
-    // public function adminProductsUpdate($id, $product, Request $request, EntityManagerInterface $entityManager, ProductRepository $repoProducts): Response
-    // {
-    //     $product = $repoProducts->find($id);
-    //     dump($id);
-    //     // dump($category);
+        $entityManager->remove($product);
+        $entityManager->flush();
 
-    //     $form = $this->createForm(ProductFormType::class, $product);
-
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->persist($product);
-    //         $entityManager->flush();
-
-    //         $productTitle = $product->getTitle();
-    //         // dump($productTitle);
-
-    //         $this->addFlash('success', "Le produit  <strong class='text-white'> {$productTitle} </strong> a été mise à jour.");
-    //         // return $this->redirectToRoute('app_admin_product');
-    //     }
-
-    //     $dbProduct = $repoProducts->findAll();
-
-    //     return $this->render('admin/products.html.twig', [
-    //         'productForm' => $form,
-    //         'dbProduct' => $dbProduct
-    //     ]);
-    // }
-
+        $productTitle = $product->getTitle();
+        $this->addFlash('success', "La suppression du produit <strong>{$productTitle}</strong> a bien été effectuée.");
+        return $this->redirectToRoute('app_admin_products');
+    }
 
 
 
@@ -237,16 +233,25 @@ final class AdminController extends AbstractController
     public function adminCategoryRemove($id, EntityManagerInterface $entityManager, CategoryRepository $repoCategory)
     {
         $category = $repoCategory->find($id);
-        dump($category);
 
-        // DELETE FROM category WHERE id = $id;
-        // $connect_db->prepare("DELETE FROM category WHERE id = :id");
-        // $connect_db->bindValue(':id', $id, PDO::PARAM_INT);
-        // $connect_db->execute();
-        $entityManager->remove($category);
-        $entityManager->flush();
+        // fonction permettant de vérifier si la catégorie est vide
+        // dump($category->getProducts());
+        // dump($category->getProducts()->isEmpty());
 
-        $this->addFlash('success', "La catégorie a bien été supprimée.");
+        if ($category->getProducts()->isEmpty()) {
+            // DELETE FROM category WHERE id = $id;
+            // $connect_db->prepare("DELETE FROM category WHERE id = :id");
+            // $connect_db->bindValue(':id', $id, PDO::PARAM_INT);
+            // $connect_db->execute();
+            $entityManager->remove($category);
+            $entityManager->flush();
+
+
+            $this->addFlash('success', "La catégorie a bien été supprimée.");
+        } else {
+            $this->addFlash('danger', "Impossible de supprimer la catégorie car elle contient des produits.");
+        }
+
         return $this->redirectToRoute('app_admin_category');
     }
 }
