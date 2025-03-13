@@ -24,7 +24,7 @@ Exo :
 6- Afficher les informations du produit (titre, référence, image etc... )
         */
 
-        $products = $productRepository->findAll();
+        $products = $productRepository->getMaxProducts();
         dump($products);
 
         return $this->render('app/index.html.twig', [
