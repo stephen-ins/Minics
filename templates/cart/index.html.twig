@@ -3,4 +3,117 @@
 {% block title %}Minics | Votre panier
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+
+	<div class="container mt-4">
+		<h1 class="text-center mb-4">Votre panier</h1>
+	</div>
+
+	<div class="container my-5">
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+					<th>Photo</th>
+					<th>Titre</th>
+					<th>Référence</th>
+					<th>Catégorie</th>
+					<th>Quantité</th>
+					<th>Prix unitaire</th>
+					<th>Prix total</th>
+					<th></th>
+				</tr>
+
+			</thead>
+			<tbody>
+
+				{% if dataCart is empty %}
+
+					<tr class="align-middle">
+
+						<td colspan="7" class="text-center">Aucun article dans le panier</td>
+
+					</tr>
+
+				{% else %}
+					{% for item in dataCart %}
+						<tr class="align-middle">
+							<td><img src="{{ asset('uploads/images/' ~ item.product.picture) }}" alt="{{ item.product.title }}" style="max-width: 50px;"></td>
+
+							<td>{{ item.product.title }}</td>
+							<td>{{ item.product.reference }}</td>
+							<td>{{ item.product.category.title }}</td>
+							<td>{{ item.quantity }}</td>
+
+							<td>{{ item.product.price }}
+								€</td>
+							<td>{{ item.product.price * item.quantity }}
+								€</td>
+							<td>
+								<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+									<i class="fa-solid fa-trash-can"></i>
+
+								</button>
+							</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer l'article
+											<strong>{{ item.product.title }}</strong>
+										</h1>
+										<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Voulez-vous vraiment supprimer cet article ?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<a href="{{ path('app_cart_remove', {'id': item.product.id}) }}" class="btn btn-danger">Sauvegarder les changements</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						{# {{ path('app_cart_remove', {'id': item.product.id}) }} #}
+
+					{% endfor %}
+
+					<tr>
+						<th>MONTANT TOTAL</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>{{ total }}
+							€
+						</th>
+						<th></th>
+
+
+					</tr>
+
+
+				{% endif %}
+			</tbody>
+		</table>
+
+		{% if dataCart is not empty %}
+			<div class="text-center mt-5">
+				{% if app.user %}
+					<a href="" class='btn btn-success btn-lg px-4'>VALIDER LE PAIEMENT</a>
+				{% else %}
+					<p class="text-center text-bg-danger">Vous devez vous connecter pour valider votre commande</p>
+					<a href="{{path('app_login')}}" class='btn btn-dark btn-lg px-4'>IDENTIFIEZ-VOUS</a>
+				{% endif %}
+			</div>
+		{% endif %}
+
+	</div>
+{% endblock %}

@@ -46,10 +46,13 @@ final class CartController extends AbstractController
             $total += $product->getPrice() * $quantity;
         }
 
-        // dump($dataCart);
-        // dump($total);
+        dump($dataCart);
+        dump($total);
 
-        return $this->render('cart/index.html.twig', []);
+        return $this->render('cart/index.html.twig', [
+            'dataCart' => $dataCart,
+            'total' => $total,
+        ]);
     }
 
 
@@ -100,6 +103,21 @@ final class CartController extends AbstractController
         4                   9
 
         */
+
+        return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
+    public function cartRemove(Product $product, SessionInterface $session)
+    {
+        $cart = $session->get('cart', []);
+        $id = $product->getId();
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+        }
+
+        $session->set('cart', $cart);
 
         return $this->redirectToRoute('app_cart');
     }
