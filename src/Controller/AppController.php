@@ -49,12 +49,28 @@ Exo :
         return $this->render('app/about.html.twig');
     }
 
+
+
+
+
     // Route pour la page products
     #[Route('/products', name: 'app_products')]
-    public function appProducts(): Response
+    public function appProducts(ProductRepository $productRepository)
     {
-        return $this->render('app/products.html.twig');
+
+        // Affichage des produits de la boutique dans une boucle
+        $products = $productRepository->findAll();
+        dump($products);
+        return $this->render('app/products.html.twig', [
+            'products' => $products
+        ]);
     }
+
+
+
+
+
+
 
     // Route pour la page why
     #[Route('/why', name: 'app_why')]

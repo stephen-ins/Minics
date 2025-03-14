@@ -96,8 +96,9 @@ class ProductFormType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'image/jpg',
+                            'image/webp'
                         ],
-                        'mimeTypesMessage' => 'Formats autorisés : jpg/jpeg/png',
+                        'mimeTypesMessage' => 'Formats autorisés : jpg/jpeg/png/webp',
                     ]),
                 ]
             ])
