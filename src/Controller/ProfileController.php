@@ -8,11 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
-  #[Route('/my_account', name: 'app_my_account')]
-  public function myAccount(): Response
-  {
-
-    $user = $this->getUser();
-    return $this->render('app/my_account.html.twig', []);
-  }
+    #[Route('/my_account', name: 'app_my_account')]
+    public function myAccount(): Response
+    {
+        $user = $this->getUser();
+        return $this->render('app/my_account.html.twig', []);
+    }
 }

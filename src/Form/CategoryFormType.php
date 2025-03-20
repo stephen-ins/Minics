@@ -17,32 +17,35 @@ class CategoryFormType extends AbstractType
         $builder
 
             ->add('title', TextType::class, [
-                'label' => "Titre de la catégorie",
+                'label' => 'Titre de la catégorie',
                 'required' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Veuillez saisir un titre de catégorie"
-                    ])
-                ]
-            ])
-
-            ->add('description', TextareaType::class, [
-                'label' => "Description de la catégorie",
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez saisir une description"
-                    ])
+                        'message' => 'Veuillez saisir un titre de catégorie',
+                    ]),
                 ],
-                'attr' => [
-                    'rows' => 10
-                ]
             ])
 
-            // ->add('createdAt', null, [
-            //     'widget' => 'single_text',
-            // ])
-        ;
+            ->add(
+                'description',
+                TextareaType::class,
+                [
+                    'label' => 'Description de la catégorie',
+                    'required' => false,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez saisir une description',
+                        ]),
+                    ],
+                    'attr' => [
+                        'rows' => 10,
+                    ],
+                ],
+
+                // ->add('createdAt', null, [
+                //     'widget' => 'single_text',
+                // ])
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

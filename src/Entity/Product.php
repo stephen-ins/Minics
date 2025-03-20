@@ -37,7 +37,6 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -50,13 +49,6 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
-
-
-
-
-
-
-
 
     public function getId(): ?int
     {
@@ -146,7 +138,6 @@ class Product
 
         return $this;
     }
-
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

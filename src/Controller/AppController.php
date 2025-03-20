@@ -13,7 +13,6 @@ final class AppController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(ProductRepository $productRepository): Response
     {
-
         /*
 Exo : 
 1- Sélectionner tout les produits enregistrés en BDD (repository)
@@ -28,7 +27,7 @@ Exo :
         dump($products);
 
         return $this->render('app/index.html.twig', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
@@ -38,7 +37,7 @@ Exo :
         $products = $productRepository->find($id);
 
         return $this->render('app/products.details.html.twig', [
-            'product' => $products
+            'product' => $products,
         ]);
     }
 
@@ -49,28 +48,17 @@ Exo :
         return $this->render('app/about.html.twig');
     }
 
-
-
-
-
     // Route pour la page products
     #[Route('/products', name: 'app_products')]
     public function appProducts(ProductRepository $productRepository)
     {
-
         // Affichage des produits de la boutique dans une boucle
         $products = $productRepository->findAll();
         dump($products);
         return $this->render('app/products.html.twig', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
-
-
-
-
-
-
 
     // Route pour la page why
     #[Route('/why', name: 'app_why')]

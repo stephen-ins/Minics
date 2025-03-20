@@ -20,12 +20,16 @@ final class Version20250306123323 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user ADD first_name VARCHAR(255) NOT NULL, ADD last_name VARCHAR(255) NOT NULL, ADD city VARCHAR(255) NOT NULL, ADD phone VARCHAR(255) NOT NULL, ADD zipcode VARCHAR(255) NOT NULL, ADD adress VARCHAR(255) NOT NULL');
+        $this->addSql(
+            'ALTER TABLE user ADD first_name VARCHAR(255) NOT NULL, ADD last_name VARCHAR(255) NOT NULL, ADD city VARCHAR(255) NOT NULL, ADD phone VARCHAR(255) NOT NULL, ADD zipcode VARCHAR(255) NOT NULL, ADD adress VARCHAR(255) NOT NULL',
+        );
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user DROP first_name, DROP last_name, DROP city, DROP phone, DROP zipcode, DROP adress');
+        $this->addSql(
+            'ALTER TABLE user DROP first_name, DROP last_name, DROP city, DROP phone, DROP zipcode, DROP adress',
+        );
     }
 }

@@ -26,12 +26,15 @@ final class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', []);
     }
 
-
     #[Route('/admin/products', name: 'app_admin_products')]
     #[Route('admin/products/update/{id}', name: 'app_admin_products_update')]
-    public function adminProducts(?Product $product, Request $request, EntityManagerInterface $entity_manager, SluggerInterface $slugger, ProductRepository $repoProduct): Response
-    {
-
+    public function adminProducts(
+        ?Product $product,
+        Request $request,
+        EntityManagerInterface $entity_manager,
+        SluggerInterface $slugger,
+        ProductRepository $repoProduct,
+    ): Response {
         // _?Product $product : le ? veut dire que par défaut $product à une valeur null
 
         // 1ère route : Si la variable $product n'est pas, cela veut dire que aucun id product est passé dans l'url alors on entre dans la condition et on initialise un objet entity product donc c'est un insertion product.
@@ -39,10 +42,9 @@ final class AdminController extends AbstractController
         // 2ème route : "/admin/products/update/{id}"
         // ON envoi un id $product dans l'URL, Symfony comprend que l'on a besoin d'un objet entity product issu de la table SQL product, il est capable automatiquement d'aller sélectionner en BDD le produit et de l'envoyer en argument de la fonction ?Product $product, à ce moment là, la variable $product contient les données du produit que l'on souhaite modifier, alors on entre pas dans la conditon if.
         if (!$product) {
-            $product = new Product;
+            $product = new Product();
         }
         // dump($product);
-
 
         // $product = new Product;
         $form = $this->createForm(ProductFormType::class, $product);
@@ -53,7 +55,6 @@ final class AdminController extends AbstractController
             // dump($pictureFile);
 
             if ($pictureFile) {
-
                 // retourne le nom du fichier d'origine sans extension
                 $originalFilefName = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // dump($originalFilefName);
@@ -70,8 +71,7 @@ final class AdminController extends AbstractController
                 $currentPath = $this->getParameter('image_directory');
 
                 try {
-
-                    // le try va tenter de copier l'image 
+                    // le try va tenter de copier l'image
                     $pictureFile->move($currentPath, $newFileName);
                 } catch (FileException $e) {
                     // dump($e);
@@ -83,7 +83,7 @@ final class AdminController extends AbstractController
 
             // Si la condiition est TRUE, cela veut dire que l'id est connu de la BDD, donc on est dans une modification d'un produit existant
             if ($product->getId()) {
-                $messageValidate = "Les modifications ont été enregistrées.";
+                $messageValidate = 'Les modifications ont été enregistrées.';
             } else {
                 // Si la condition est FALSE, cela veut dire que l'id n'est pas connu de la BDD, donc on est dans une insertion d'un produit
                 $messageValidate = "L'article a été enregistré.";
@@ -106,11 +106,11 @@ final class AdminController extends AbstractController
         return $this->render('admin/products.html.twig', [
             'productForm' => $form,
             'dbProduct' => $dbProduct,
-            'pictureFile' => $product->getPicture()
+            'pictureFile' => $product->getPicture(),
         ]);
 
         return $this->render('admin/products.html.twig', [
-            'productForm' => $form
+            'productForm' => $form,
         ]);
     }
 
@@ -129,8 +129,6 @@ final class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_products');
     }
 
-
-
     #[Route('/admin/orders', name: 'app_admin_orders')]
     public function adminOrders(): Response
     {
@@ -144,18 +142,20 @@ final class AdminController extends AbstractController
     }
 
     #[Route('/admin/category ', name: 'app_admin_category')]
-    public function adminCategory(Request $request, EntityManagerInterface $entityManager, CategoryRepository $repoCategory): Response
-    {
-        $category = new Category;
+    public function adminCategory(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CategoryRepository $repoCategory,
+    ): Response {
+        $category = new Category();
 
         $form = $this->createForm(CategoryFormType::class, $category);
 
         // $category->setTitle($_POST['title'])
         $form->handleRequest($request);
 
-        // if(issert($_POST['submit'])) && $SERVER['REQUEST_METHOD'] == 'POST') 
+        // if(issert($_POST['submit'])) && $SERVER['REQUEST_METHOD'] == 'POST')
         if ($form->isSubmitted() && $form->isValid()) {
-
             $category->setCreatedAt(new \DateTimeImmutable());
 
             // $connect_db->prepare("INSERT INTO category VALUES (:title)")
@@ -171,7 +171,7 @@ final class AdminController extends AbstractController
             // Message utilisateur stocké dans la session
             // $_SESSION['message_validate'] = "La catégorie a été enregistrée.";
             // $stmt->bindvalue(':title...
-            $this->addFlash('success', "La catégorie a été enregistrée.");
+            $this->addFlash('success', 'La catégorie a été enregistrée.');
             // $this->addFlash('danger', "Echec du rajout de la catégorie.");
 
             return $this->redirectToRoute('app_admin_category');
@@ -185,18 +185,21 @@ final class AdminController extends AbstractController
         $dbCategory = $repoCategory->findAll();
         // dump($dbCategory);
 
-
         return $this->render('admin/category.html.twig', [
             'categoryForm' => $form,
-            'dbCategory' => $dbCategory
+            'dbCategory' => $dbCategory,
         ]);
     }
 
     // UPDATE                       1
     #[Route('admin/category/update{id}', name: 'app_admin_category_update')]
-    public function adminCategoryUpdate($id, Category $category, Request $request, EntityManagerInterface $entityManager, CategoryRepository $repoCategory): Response
-    {
-
+    public function adminCategoryUpdate(
+        $id,
+        Category $category,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CategoryRepository $repoCategory,
+    ): Response {
         // SELECT * FROM category WHERE id = $id; // 1
         // + fetch(PDO::FETCH_ASSOC);
         $category = $repoCategory->find($id);
@@ -217,7 +220,10 @@ final class AdminController extends AbstractController
             $categoryTitle = $category->getTitle();
             // dump($categoryTitle);
 
-            $this->addFlash('success', "La catégorie  <strong class='text-white'> {$categoryTitle} </strong> a été mise à jour.");
+            $this->addFlash(
+                'success',
+                "La catégorie  <strong class='text-white'> {$categoryTitle} </strong> a été mise à jour.",
+            );
             return $this->redirectToRoute('app_admin_category');
         }
 
@@ -225,7 +231,7 @@ final class AdminController extends AbstractController
 
         return $this->render('admin/category.html.twig', [
             'categoryForm' => $form,
-            'dbCategory' => $dbCategory
+            'dbCategory' => $dbCategory,
         ]);
     }
 
@@ -246,10 +252,9 @@ final class AdminController extends AbstractController
             $entityManager->remove($category);
             $entityManager->flush();
 
-
-            $this->addFlash('success', "La catégorie a bien été supprimée.");
+            $this->addFlash('success', 'La catégorie a bien été supprimée.');
         } else {
-            $this->addFlash('danger', "Impossible de supprimer la catégorie car elle contient des produits.");
+            $this->addFlash('danger', 'Impossible de supprimer la catégorie car elle contient des produits.');
         }
 
         return $this->redirectToRoute('app_admin_category');

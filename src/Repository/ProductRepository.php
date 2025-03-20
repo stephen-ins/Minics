@@ -23,10 +23,9 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p') // 'p' => product
             ->orderBy('p.title', 'ASC') // ORDER BY p.title ASC
-            ->setMaxResults(6) // LIMIT 6  
+            ->setMaxResults(6) // LIMIT 6
             ->getQuery() // STMT FETCH
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     //    public function findOneBySomeField($value): ?Product

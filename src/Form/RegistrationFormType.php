@@ -22,9 +22,9 @@ class RegistrationFormType extends AbstractType
         $builder
 
             ->add('email', TextType::class, [
-                'label' => "Adresse mail",
+                'label' => 'Adresse mail',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre adresse mail'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre adresse mail'])],
             ])
 
             ->add('agreeTerms', CheckboxType::class, [
@@ -39,10 +39,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => "Les mots de passe ne correspondent pas",
+                'invalid_message' => 'Les mots de passe ne correspondent pas',
                 'required' => false,
-                'first_options' => ['label' => "Mot de passe"],
-                'second_options' => ['label' => "Confirmez votre mot de passe"],
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmez votre mot de passe'],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -55,34 +55,36 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&.,_\-])[A-Za-z\d@$!#%*?&.,_\-]{8,}$/',
+                        'pattern' =>
+                            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&.,_\-])[A-Za-z\d@$!#%*?&.,_\-]{8,}$/',
                         'match' => true,
-                        'message' => "Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial (@$!#%*?&.,_-)"
-                    ])
+                        'message' =>
+                            "Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial (@$!#%*?&.,_-)",
+                    ]),
                 ],
             ])
             ->add('firstName', TextType::class, [
-                'label' => "Prénom",
+                'label' => 'Prénom',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre prénom'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre prénom'])],
             ])
             ->add('lastName', TextType::class, [
-                'label' => "Nom",
+                'label' => 'Nom',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre nom'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre nom'])],
             ])
             ->add('city', TextType::class, [
-                'label' => "Ville",
+                'label' => 'Ville',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre ville'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre ville'])],
             ])
             ->add('zipcode', TextType::class, [
-                'label' => "Code postal",
+                'label' => 'Code postal',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre code postal'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre code postal'])],
             ])
             ->add('phone', TextType::class, [
-                'label' => "Téléphone",
+                'label' => 'Téléphone',
                 'required' => false,
                 'constraints' => [
                     new NotBlank([
@@ -96,9 +98,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('address', TextType::class, [
-                'label' => "Adresse",
+                'label' => 'Adresse',
                 'required' => false,
-                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre adresse'])]
+                'constraints' => [new NotBlank(['message' => 'Merci de renseigner votre adresse'])],
             ]);
     }
 

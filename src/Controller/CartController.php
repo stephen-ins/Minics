@@ -18,7 +18,6 @@ final class CartController extends AbstractController
     #[Route('/cart', name: 'app_cart')]
     public function cart(SessionInterface $session, ProductRepository $repoProduct): Response
     {
-
         // ON récupère le panier dans la session
         $cart = $session->get('cart', []);
         // dump($cart);
@@ -58,8 +57,6 @@ final class CartController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/cart/add/{id}', name: 'app_cart_add')]
     public function cartAdd(Request $request, Product $product, SessionInterface $session)
     {
@@ -80,16 +77,14 @@ final class CartController extends AbstractController
 
         //          $cart[1]
         if (isset($cart[$id])) {
-
             // dump('if produit existe dans la panier');
 
-            // 
+            //
             $cart[$id] = $cart[$id] + $quantity;
         } else {
-
             // dump('else produit inexistant dans la panier');
 
-            // 
+            //
             $cart[$id] = $quantity;
         }
 
@@ -141,7 +136,7 @@ final class CartController extends AbstractController
         $cart = $session->get('cart', []);
         $id = $product->getId();
 
-        $quantity = (int)$request->request->get('quantity');
+        $quantity = (int) $request->request->get('quantity');
 
         if (isset($cart[$id]) && $quantity > 0) {
             $cart[$id] = $quantity;
@@ -152,10 +147,12 @@ final class CartController extends AbstractController
         return $this->redirectToRoute('app_cart');
     }
 
-
     #[Route('/cart/payment', name: 'app_cart_payment')]
-    public function cartPayment(SessionInterface $session, ProductRepository $repoProduct, EntityManagerInterface $entityManager)
-    {
+    public function cartPayment(
+        SessionInterface $session,
+        ProductRepository $repoProduct,
+        EntityManagerInterface $entityManager,
+    ) {
         $cart = $session->get('cart', []);
         $total = 0;
         dump($cart);
@@ -172,16 +169,27 @@ final class CartController extends AbstractController
                     dump('Stock restant : ' . $stockDb);
                     dump('Quantité commandée : ' . $quantity);
 
-                    $this->addFlash('warning', 'La quantité du produit <strong>' . $product->getTitle() . '</strong> a été modifiée car le stock est insuffisant. Stock actuel : ' . $stockDb);
+                    $this->addFlash(
+                        'warning',
+                        'La quantité du produit <strong>' .
+                            $product->getTitle() .
+                            '</strong> a été modifiée car le stock est insuffisant. Stock actuel : ' .
+                            $stockDb,
+                    );
 
                     $cart[$id] = $stockDb;
                 } else {
                     // Sinon le stock est à 0, alors on supprime le produit du panier
-                    dump('Article : ' . $product->getTitle()) . " est en rupture de stock";
+                    dump('Article : ' . $product->getTitle()) . ' est en rupture de stock';
                     dump('Stock restant : ' . $stockDb);
                     dump('Quantité commandée : ' . $quantity);
 
-                    $this->addFlash('danger', 'Le produit <strong>' . $product->getTitle() . '</strong> a été retiré du panier car il est en rupture de stock');
+                    $this->addFlash(
+                        'danger',
+                        'Le produit <strong>' .
+                            $product->getTitle() .
+                            '</strong> a été retiré du panier car il est en rupture de stock',
+                    );
 
                     // On supprime l'id et la quantité du produit dans la session
                     unset($cart[$id]);
@@ -202,7 +210,7 @@ final class CartController extends AbstractController
             $order->setUser($this->getUser());
             // On génère le numéro de commande
             // MINICS-01012023-123456789
-            $orderNumber = "MINICS-" . date('dmY') . '-' . uniqid();
+            $orderNumber = 'MINICS-' . date('dmY') . '-' . uniqid();
             $order->setOrderNumber($orderNumber);
             $order->setRising($total);
             $order->setCreatedAt(new \DateTimeImmutable());
@@ -210,7 +218,6 @@ final class CartController extends AbstractController
 
             $entityManager->persist($order);
             $entityManager->flush();
-
 
             // Insertion dans la table order_details
 
@@ -231,8 +238,12 @@ final class CartController extends AbstractController
                 $entityManager->flush();
             }
 
-
-            $this->addFlash('success', 'Votre commande n°= <strong>' . $orderNumber . '</strong> a bien été enregistrée. Merci de votre fidélité !');
+            $this->addFlash(
+                'success',
+                'Votre commande n°= <strong>' .
+                    $orderNumber .
+                    '</strong> a bien été enregistrée. Merci de votre fidélité !',
+            );
 
             $session->remove('cart');
         }

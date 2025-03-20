@@ -14,9 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
-
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+    ): Response {
         // Si getUser() renvoi TRUE, cela veut dire que l'utilisateur est authentifié, il n'a rien à faire sur la page connexion, on redirige vers la page accueil.
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
@@ -33,11 +35,8 @@ class RegistrationController extends AbstractController
         // $user->setEmail($_POST['email'])
         $form->handleRequest($request);
 
-
         // if($_SERVER['REQUEST_METHOD'] === 'POST')
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $plainPassword = $form->get('password')->getData();
             $passwordHash = $userPasswordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($passwordHash);
