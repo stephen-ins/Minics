@@ -15,7 +15,6 @@ class CategoryFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('title', TextType::class, [
                 'label' => 'Titre de la catégorie',
                 'required' => false,
@@ -25,7 +24,6 @@ class CategoryFormType extends AbstractType
                     ]),
                 ],
             ])
-
             ->add(
                 'description',
                 TextareaType::class,

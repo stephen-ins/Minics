@@ -2,63 +2,64 @@
 
 {% block title %}
 
-	Minics | Mon compte
+    Minics | Mon compte
 
 {% endblock %}
 
 {% block body %}
 
-	{# {{ dump(app.user) }} #}
+    {# {{ dump(app.user) }} #}
 
-	{# Exo : créer le compte utilisateur, afficher les données personnelles de l'utilisateur qui est connecté en passant par l'objet app.user.
+    {# Exo : créer le compte utilisateur, afficher les données personnelles de l'utilisateur qui est connecté en passant par l'objet app.user.
 										Faite en sorte de rediriger l'internaute si il tente d'accéder à cette page is l'utilisateur n'est pas authentifié #}
 
-		<div class="container mt-5 mb-5"> <div class="row justify-content-center">
-			<div class="col-md-8">
-				<div class="card">
-					<div class="card-header">
-						<h2 class="mb-0">Vos informations personnelles</h2>
-					</div>
-					<div class="card-body">
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Email :</div>
-							<div class="col-md-8">{{ app.user.email }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Prénom :</div>
-							<div class="col-md-8">{{ app.user.firstName }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Nom :</div>
-							<div class="col-md-8">{{ app.user.lastName }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Téléphone :</div>
-							<div class="col-md-8">{{ app.user.phone }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Adresse :</div>
-							<div class="col-md-8">{{ app.user.address }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Code postal :</div>
-							<div class="col-md-8">{{ app.user.zipcode }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="col-md-4 font-weight-bold">Ville :</div>
-							<div class="col-md-8">{{ app.user.city }}</div>
-						</div>
-						<div class="row mb-3">
-							<div class="d-flex align-items-center justify-content-center col-md-2 font-weight-bold"></div>
-							<a href="" class="btn btn-dark">Mettre à jour</a>
-						</div>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="mb-0">Vos informations personnelles</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Email :</div>
+                            <div class="col-md-8">{{ app.user.email }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Prénom :</div>
+                            <div class="col-md-8">{{ app.user.firstName }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Nom :</div>
+                            <div class="col-md-8">{{ app.user.lastName }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Téléphone :</div>
+                            <div class="col-md-8">{{ app.user.phone }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Adresse :</div>
+                            <div class="col-md-8">{{ app.user.address }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Code postal :</div>
+                            <div class="col-md-8">{{ app.user.zipcode }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4 font-weight-bold">Ville :</div>
+                            <div class="col-md-8">{{ app.user.city }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="d-flex align-items-center justify-content-center col-md-2 font-weight-bold"></div>
+                            <a href="" class="btn btn-dark">Mettre à jour</a>
+                        </div>
 
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
