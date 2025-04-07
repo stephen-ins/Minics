@@ -29,16 +29,6 @@ class OrderDetails
     #[ORM\JoinColumn(nullable: false)]
     private ?Orders $orders = null;
 
-    // /**
-    //  * @var Collection<int, Product>
-    //  */
-    // #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'orderDetails')]
-    // private Collection $product;
-
-    // public function __construct()
-    // {
-    //     $this->product = new ArrayCollection();
-    // }
 
     public function getId(): ?int
     {
@@ -93,32 +83,4 @@ class OrderDetails
         return $this;
     }
 }
-// /**
-//  * @return Collection<int, Orders>
-//  */
-// public function getOrders(): Collection
-// {
-//     return $this->orders;
-// }
 
-// public function addOrder(Orders $order): static
-// {
-//     if (!$this->orders->contains($order)) {
-//         $this->orders->add($order);
-//         $order->setOrderDetails($this);
-//     }
-
-//     return $this;
-// }
-
-// public function removeOrder(Orders $order): static
-// {
-//     if ($this->orders->removeElement($order)) {
-//         // set the owning side to null (unless already changed)
-//         if ($order->getOrderDetails() === $this) {
-//             $order->setOrderDetails(null);
-//         }
-//     }
-
-//     return $this;
-// }
